@@ -1,0 +1,153 @@
+.saved-page {
+  padding: 48px 0 80px;
+}
+
+.saved-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all var(--transition-med);
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card);
+
+    .play-overlay-sm {
+      opacity: 1;
+    }
+
+    .thumb {
+      transform: scale(1.04);
+    }
+  }
+}
+
+.thumb-wrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--bg-raised);
+}
+
+.thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  display: block;
+}
+
+.play-overlay-sm {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  opacity: 0;
+  transition: opacity var(--transition-med);
+}
+
+.saved-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.saved-top {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.saved-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  line-height: 1.4;
+  flex: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  color: var(--text-primary);
+}
+
+.channel {
+  font-size: 0.78rem;
+}
+
+.saved-meta {
+  font-size: 0.72rem;
+}
+
+.meta-dot {
+  opacity: 0.5;
+}
+
+.unsave-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  padding: 2px 4px;
+  transition: color var(--transition-fast);
+  flex-shrink: 0;
+
+  &:hover {
+    color: var(--accent);
+  }
+}
+
+/* skeleton */
+.skeleton-card {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+}
+
+.skeleton-thumb {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+
+.skeleton-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeleton-line {
+  height: 12px;
+  border-radius: 6px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+
+  .empty-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+  }
+}

@@ -1,0 +1,39 @@
+<div class="video-card" (click)="openVideo()" role="button" tabindex="0">
+  <!-- Thumbnail -->
+  <div class="thumbnail-wrap">
+    <img
+      [src]="video.thumbnail"
+      [alt]="video.title"
+      class="thumbnail"
+      loading="lazy"
+      (error)="$any($event.target).src='https://placehold.co/480x270/161616/5a5a5a?text=No+Image'"
+    />
+    <div class="duration-badge" *ngIf="formattedDuration">{{ formattedDuration }}</div>
+    <div class="play-overlay">
+      <div class="play-btn">▶</div>
+    </div>
+  </div>
+
+  <!-- Info -->
+  <div class="card-body">
+    <div class="card-top">
+      <h3 class="video-title" [title]="video.title">{{ video.title }}</h3>
+      <button
+        class="save-btn"
+        [class.saved]="video.isSaved"
+        (click)="onToggleSave($event)"
+        [title]="video.isSaved ? 'Remove from saved' : 'Save video'"
+      >
+        {{ video.isSaved ? '★' : '☆' }}
+      </button>
+    </div>
+
+    <p class="channel-name">{{ video.channelName }}</p>
+
+    <div class="card-meta">
+      <span class="font-mono">{{ formattedViews }} views</span>
+      <span class="meta-dot">·</span>
+      <span>{{ timeAgo }}</span>
+    </div>
+  </div>
+</div>

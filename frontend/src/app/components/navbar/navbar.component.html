@@ -1,0 +1,62 @@
+<nav class="navbar" [class.scrolled]="isScrolled">
+  <div class="navbar-inner page-container">
+
+    <!-- Logo -->
+    <a routerLink="/" class="navbar-logo" (click)="closeMenu()">
+      <span class="logo-icon">▶</span>
+      <span class="logo-text">NEW<span class="logo-accent">TUBE</span></span>
+    </a>
+
+    <!-- Desktop nav links -->
+    <div class="navbar-links">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link">
+        Home
+      </a>
+      <ng-container *ngIf="currentUser">
+        <a routerLink="/explore" routerLinkActive="active" class="nav-link">
+          Explore
+        </a>
+        <a routerLink="/saved" routerLinkActive="active" class="nav-link">
+          Saved
+        </a>
+      </ng-container>
+    </div>
+
+    <!-- Auth actions -->
+    <div class="navbar-actions">
+      <ng-container *ngIf="!currentUser; else userMenu">
+        <a routerLink="/login" class="btn btn-ghost btn-sm">Sign In</a>
+        <a routerLink="/register" class="btn btn-primary btn-sm">Join Free</a>
+      </ng-container>
+
+      <ng-template #userMenu>
+        <a routerLink="/profile" class="user-avatar" title="Profile">
+          <span>{{ getInitial() }}</span>
+        </a>
+        <button class="btn btn-ghost btn-sm" (click)="logout()">Sign Out</button>
+      </ng-template>
+
+      <!-- Mobile hamburger -->
+      <button class="hamburger" (click)="toggleMenu()" [class.open]="mobileMenuOpen">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" [class.open]="mobileMenuOpen">
+    <a routerLink="/" (click)="closeMenu()" class="mobile-link">Home</a>
+    <ng-container *ngIf="currentUser">
+      <a routerLink="/explore" (click)="closeMenu()" class="mobile-link">Explore</a>
+      <a routerLink="/saved" (click)="closeMenu()" class="mobile-link">Saved</a>
+      <a routerLink="/profile" (click)="closeMenu()" class="mobile-link">Profile</a>
+      <button class="mobile-link mobile-signout" (click)="logout()">Sign Out</button>
+    </ng-container>
+    <ng-container *ngIf="!currentUser">
+      <a routerLink="/login" (click)="closeMenu()" class="mobile-link">Sign In</a>
+      <a routerLink="/register" (click)="closeMenu()" class="mobile-link">Join Free</a>
+    </ng-container>
+  </div>
+</nav>
+
+<div class="navbar-spacer"></div>

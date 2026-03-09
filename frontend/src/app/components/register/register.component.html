@@ -1,0 +1,82 @@
+<div class="auth-page page-enter">
+  <div class="auth-card card">
+    <div class="auth-header">
+      <a routerLink="/" class="auth-logo">
+        <span class="logo-icon-sm">▶</span>
+        <span>NEW<span class="text-accent">TUBE</span></span>
+      </a>
+      <h2>Join NewTube</h2>
+      <p class="text-secondary">Start exploring beyond the algorithm</p>
+    </div>
+
+    <div *ngIf="error" class="error-banner">
+      {{ error }}
+    </div>
+
+    <form (ngSubmit)="submit()" novalidate>
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input
+          type="text"
+          class="form-input"
+          [class.error]="username.invalid && username.touched"
+          placeholder="coolexplorer42"
+          [formControl]="$any(username)"
+          autocomplete="username"
+        />
+        <span *ngIf="username.errors?.['required'] && username.touched" class="form-error">
+          Username is required
+        </span>
+        <span *ngIf="username.errors?.['minlength'] && username.touched" class="form-error">
+          At least 3 characters
+        </span>
+        <span *ngIf="username.errors?.['pattern'] && username.touched" class="form-error">
+          Letters, numbers, underscores only
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-input"
+          [class.error]="email.invalid && email.touched"
+          placeholder="you@example.com"
+          [formControl]="$any(email)"
+          autocomplete="email"
+        />
+        <span *ngIf="email.invalid && email.touched" class="form-error">
+          Enter a valid email
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-input"
+          [class.error]="password.invalid && password.touched"
+          placeholder="Minimum 8 characters"
+          [formControl]="$any(password)"
+          autocomplete="new-password"
+        />
+        <span *ngIf="password.errors?.['required'] && password.touched" class="form-error">
+          Password is required
+        </span>
+        <span *ngIf="password.errors?.['minlength'] && password.touched" class="form-error">
+          At least 8 characters
+        </span>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-lg auth-submit" [disabled]="loading">
+        <span *ngIf="!loading">Create Account →</span>
+        <span *ngIf="loading">Creating account...</span>
+      </button>
+    </form>
+
+    <p class="auth-footer text-secondary">
+      Already have an account?
+      <a routerLink="/login" class="auth-link">Sign in</a>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="home page-enter">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-orb orb-1"></div>
+      <div class="hero-orb orb-2"></div>
+      <div class="hero-grid"></div>
+    </div>
+
+    <div class="page-container hero-content">
+      <div class="hero-badge">
+        <span class="badge badge-accent">No Algorithm · No Bias · Pure Discovery</span>
+      </div>
+
+      <h1 class="hero-title">
+        Watch What<br>
+        <span class="title-accent">You Didn't Know</span><br>
+        You Wanted
+      </h1>
+
+      <p class="hero-subtitle">
+        NewTube breaks you out of your YouTube bubble. Explore trending videos
+        from across the globe — without your watch history calling the shots.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-lg" (click)="goToExplore()">
+          <span>Start Exploring</span>
+          <span class="btn-arrow">→</span>
+        </button>
+        <a *ngIf="!authService.isAuthenticated" routerLink="/login" class="btn btn-ghost btn-lg">
+          Sign In
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">12</span><span class="stat-label">Regions</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">15</span><span class="stat-label">Categories</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">∞</span><span class="stat-label">Discoveries</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section">
+    <div class="page-container">
+      <div class="section-header">
+        <h2>Why <span class="text-accent">NewTube</span>?</h2>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card" *ngFor="let f of features; let i = index"
+             [style.animation-delay]="(i * 0.1) + 's'">
+          <div class="feature-icon">{{ f.icon }}</div>
+          <h3>{{ f.title }}</h3>
+          <p>{{ f.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="page-container">
+      <div class="cta-card">
+        <div class="cta-decor"></div>
+        <h2>Ready to escape the algorithm?</h2>
+        <p>Join free. No credit card. No tracking. Just videos.</p>
+        <button class="btn btn-primary btn-lg" (click)="goToExplore()">
+          {{ authService.isAuthenticated ? 'Go to Explorer' : 'Create Free Account' }}
+        </button>
+      </div>
+    </div>
+  </section>
+
+</div>

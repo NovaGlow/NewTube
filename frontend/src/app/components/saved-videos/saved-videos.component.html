@@ -1,0 +1,52 @@
+<div class="saved-page page-enter">
+  <div class="page-container">
+
+    <div class="section-header">
+      <h1>Saved Videos</h1>
+      <span class="badge badge-muted" *ngIf="!loading">{{ videos.length }} saved</span>
+    </div>
+
+    <!-- Skeletons -->
+    <div class="video-grid" *ngIf="loading">
+      <div class="skeleton-card" *ngFor="let s of skeletons">
+        <div class="skeleton-thumb loading-shimmer"></div>
+        <div class="skeleton-body">
+          <div class="skeleton-line loading-shimmer" style="width:90%"></div>
+          <div class="skeleton-line loading-shimmer" style="width:65%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Videos -->
+    <div class="video-grid" *ngIf="!loading && videos.length > 0">
+      <div class="saved-card" *ngFor="let v of videos" (click)="openVideo(v.youtube_id)">
+        <div class="thumb-wrap">
+          <img [src]="v.thumbnail_url" [alt]="v.title" class="thumb"
+               (error)="$any($event.target).src='https://placehold.co/480x270/161616/5a5a5a?text=No+Image'" />
+          <div class="play-overlay-sm">▶</div>
+        </div>
+        <div class="saved-body">
+          <div class="saved-top">
+            <h3 class="saved-title">{{ v.title }}</h3>
+            <button class="unsave-btn" (click)="unsave(v.youtube_id); $event.stopPropagation()" title="Remove">✕</button>
+          </div>
+          <p class="channel text-secondary">{{ v.channel_name }}</p>
+          <div class="saved-meta text-muted font-mono">
+            <span *ngIf="v.view_count">{{ formatViews(v.view_count) }} views</span>
+            <span class="meta-dot" *ngIf="v.view_count"> · </span>
+            <span>Saved {{ formatDate(v.saved_at) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty -->
+    <div class="empty-state" *ngIf="!loading && videos.length === 0">
+      <div class="empty-icon">📌</div>
+      <h3>No saved videos yet</h3>
+      <p class="text-secondary">Browse the explorer and hit ☆ to save videos here</p>
+      <a routerLink="/explore" class="btn btn-primary" style="margin-top:20px;">Go Explore</a>
+    </div>
+
+  </div>
+</div>

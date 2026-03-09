@@ -1,0 +1,79 @@
+<div class="profile-page page-enter" *ngIf="!loading">
+  <div class="page-container">
+
+    <!-- Profile header -->
+    <div class="profile-header card">
+      <div class="avatar-large">{{ getInitial() }}</div>
+
+      <div class="profile-info">
+        <h2>{{ profile.username }}</h2>
+        <p class="text-secondary">{{ profile.email }}</p>
+        <p class="text-muted" *ngIf="profile.bio">{{ profile.bio }}</p>
+        <p class="join-date text-muted font-mono">Joined {{ formatDate(profile.createdAt) }}</p>
+      </div>
+
+      <button class="btn btn-ghost btn-sm edit-btn" (click)="toggleEdit()">
+        {{ editMode ? 'Cancel' : '✏️ Edit Profile' }}
+      </button>
+    </div>
+
+    <!-- Edit form -->
+    <div class="edit-card card" *ngIf="editMode">
+      <h3>Edit Profile</h3>
+      <form [formGroup]="editForm" (ngSubmit)="saveProfile()">
+        <div class="form-group">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-input" formControlName="username" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Bio</label>
+          <textarea class="form-input bio-input" formControlName="bio" rows="3" placeholder="Tell us about yourself..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </form>
+    </div>
+
+    <div class="save-success" *ngIf="saveSuccess">✓ Profile updated</div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card card">
+        <div class="stat-big">{{ stats.savedCount }}</div>
+        <div class="stat-desc">Saved Videos</div>
+      </div>
+      <div class="stat-card card">
+        <div class="stat-big">{{ stats.watchedCount }}</div>
+        <div class="stat-desc">Watched</div>
+      </div>
+      <div class="stat-card card">
+        <div class="stat-big">{{ stats.discoveryCount }}</div>
+        <div class="stat-desc">Discoveries</div>
+      </div>
+    </div>
+
+    <!-- Category interests -->
+    <div class="section">
+      <div class="section-header">
+        <h2>My Categories</h2>
+      </div>
+      <p class="text-secondary" style="margin-bottom:16px; font-size:0.88rem;">
+        Toggle categories you enjoy — helps us know what you like (but won't restrict your discoveries).
+      </p>
+      <div class="categories-grid">
+        <button
+          class="cat-chip"
+          *ngFor="let cat of categories"
+          [class.active]="isCategoryPreferred(cat.name)"
+          (click)="togglePreference(cat)"
+        >
+          {{ cat.name }}
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="loading-page" *ngIf="loading">
+  <div class="loading-shimmer" style="width:300px;height:20px;border-radius:10px;"></div>
+</div>

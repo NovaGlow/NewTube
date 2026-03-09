@@ -1,0 +1,118 @@
+<div class="browser-page page-enter">
+  <div class="page-container">
+
+    <!-- Header -->
+    <div class="browser-header">
+      <div class="header-left">
+        <h1>Explore</h1>
+        <p class="text-secondary">Trending videos from around the world — no algorithm</p>
+      </div>
+      <button class="btn btn-teal surprise-btn" (click)="surprise()" [disabled]="surpriseLoading">
+        <span *ngIf="!surpriseLoading">🎲 Surprise Me</span>
+        <span *ngIf="surpriseLoading">Drawing...</span>
+      </button>
+    </div>
+
+    <!-- Surprise card -->
+    <div class="surprise-card" *ngIf="surpriseVideo">
+      <div class="surprise-inner">
+        <img [src]="surpriseVideo.thumbnail" alt="Surprise video thumbnail" class="surprise-thumb" />
+        <div class="surprise-info">
+          <span class="badge badge-teal">Random Pick</span>
+          <h3>{{ surpriseVideo.title }}</h3>
+          <p class="text-secondary">{{ surpriseVideo.channelName }}</p>
+          <div class="surprise-actions">
+            <button class="btn btn-primary" (click)="openSurprise()">Watch on YouTube →</button>
+            <button class="btn btn-ghost btn-sm" (click)="closeSurprise()">Dismiss</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-bar">
+      <!-- Search -->
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input
+          type="text"
+          class="form-input search-input"
+          placeholder="Search any topic..."
+          [(ngModel)]="searchQuery"
+          (input)="onSearchInput(searchQuery)"
+        />
+        <button *ngIf="searchQuery" class="clear-search" (click)="clearSearch()">✕</button>
+      </div>
+
+      <!-- Category filter -->
+      <select class="form-input filter-select" [(ngModel)]="selectedCategory" (change)="discover()">
+        <option value="">All Categories</option>
+        <option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option>
+      </select>
+
+      <!-- Region filter -->
+      <select class="form-input filter-select" [(ngModel)]="selectedRegion" (change)="discover()">
+        <option value="">Random Region</option>
+        <option *ngFor="let r of REGIONS" [value]="r.code">{{ r.name }}</option>
+      </select>
+
+      <!-- Refresh discover -->
+      <button class="btn btn-ghost" (click)="discover()" *ngIf="mode === 'discover'" title="Discover again">
+        ↺ Rediscover
+      </button>
+    </div>
+
+    <!-- Meta info -->
+    <div class="results-meta" *ngIf="!loading && videos.length > 0 && mode === 'discover'">
+      <span class="badge badge-muted">{{ getCategoryName(categoryUsed) }}</span>
+      <span class="badge badge-muted">{{ regionUsed }}</span>
+    </div>
+
+    <div class="results-meta" *ngIf="!loading && mode === 'search' && searchQuery">
+      <span class="text-secondary">Results for</span>
+      <span class="badge badge-accent">"{{ searchQuery }}"</span>
+    </div>
+
+    <!-- Error -->
+    <div class="error-state" *ngIf="error && !loading">
+      <p>⚠️ {{ error }}</p>
+      <button class="btn btn-ghost btn-sm" (click)="discover()">Try again</button>
+    </div>
+
+    <!-- Loading skeletons -->
+    <div class="video-grid" *ngIf="loading">
+      <div class="skeleton-card" *ngFor="let s of skeletons">
+        <div class="skeleton-thumb loading-shimmer"></div>
+        <div class="skeleton-body">
+          <div class="skeleton-line loading-shimmer" style="width:90%"></div>
+          <div class="skeleton-line loading-shimmer" style="width:65%"></div>
+          <div class="skeleton-line loading-shimmer" style="width:45%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video grid -->
+    <div class="video-grid" *ngIf="!loading && videos.length > 0">
+      <app-video-card
+        *ngFor="let video of videos"
+        [video]="video"
+        (toggleSave)="onToggleSave($event)"
+      ></app-video-card>
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" *ngIf="!loading && videos.length === 0 && !error">
+      <div class="empty-icon">📭</div>
+      <h3>No videos found</h3>
+      <p class="text-secondary">Try a different category or search term</p>
+    </div>
+
+    <!-- Load more -->
+    <div class="load-more-wrap" *ngIf="!loading && nextPageToken && videos.length > 0">
+      <button class="btn btn-ghost" (click)="loadMore()" [disabled]="loadingMore">
+        {{ loadingMore ? 'Loading...' : 'Load More' }}
+      </button>
+    </div>
+
+  </div>
+</div>
